@@ -1,8 +1,5 @@
-zipper.indexedDB.print = ->
-  renderRecord = (record) ->
-    debugger
-    row = $('<div/>').addClass('record').text(JSON.stringify(record))
-    $('.data').append(row)
+zipper.download = ->
+  rows = []
 
   dbOperation = ->
     db = zipper.indexedDB.db
@@ -15,8 +12,14 @@ zipper.indexedDB.print = ->
       cursorRequest.onsuccess = (e) ->
         result = e.target.result
         if result?
-          renderRecord(result.value)
+          rows.push JSON.stringify(result.value)
           result.continue()
+        else
+          content = rows.join("\n")
+          blob = new Blob([content], type: 'application/octet-binary')
+          url = URL.createObjectURL(blob)
+          tag = $('<a/>').attr('href', url).text('Download here')
+          $('body').append(tag)
 
       cursorRequest.onerror = zipper.indexedDB.onerror
 

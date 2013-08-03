@@ -1,4 +1,4 @@
 jQuery ->
-  $('#create').on 'click', zipper.indexedDB.open
+  $('#create').on 'click', zipper.indexedDB.populate
   $('#download').on 'click', zipper.download
 

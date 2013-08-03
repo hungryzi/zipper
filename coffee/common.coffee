@@ -9,6 +9,7 @@ zipper.indexedDB.open = (operation) ->
 
   request.onsuccess = (e) ->
     zipper.indexedDB.db = e.target.result
+
     if operation?
       operation()
       zipper.indexedDB.close()

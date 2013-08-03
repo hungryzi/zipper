@@ -2,8 +2,7 @@
 (function() {
   jQuery(function() {
     $('#create').on('click', zipper.indexedDB.populate);
-    $('#print').on('click', zipper.indexedDB.print);
-    return $('#download').on('click', zipper.indexedDB.download);
+    return $('#download').on('click', zipper.download);
   });
 
 }).call(this);

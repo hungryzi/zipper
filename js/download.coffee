@@ -1,2 +1,0 @@
-zipper.indexedDB.download = ->
-
