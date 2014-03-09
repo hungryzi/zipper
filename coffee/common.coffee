@@ -24,3 +24,6 @@ zipper.indexedDB.onerror = (e) ->
 zipper.indexedDB.close = ->
   zipper.indexedDB.db.close() if zipper.indexedDB.db
 
+zipper.indexedDB.drop = ->
+  indexedDB.deleteDatabase("zipper")
+

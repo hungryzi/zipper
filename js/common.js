@@ -31,4 +31,8 @@
     }
   };
 
+  zipper.indexedDB.drop = function() {
+    return indexedDB.deleteDatabase("zipper");
+  };
+
 }).call(this);
