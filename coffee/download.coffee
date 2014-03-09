@@ -16,8 +16,7 @@ zipper.download = ->
           result.continue()
         else
           content = rows.join("\n")
-          blob = new Blob([content], type: 'application/octet-binary')
-          url = URL.createObjectURL(blob)
+          url = zipper.generateDownloadUrl content
           tag = $('<a/>').attr('href', url).text('Download here')
           $('body').append(tag)
 

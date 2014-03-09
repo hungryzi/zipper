@@ -35,4 +35,12 @@
     return indexedDB.deleteDatabase("zipper");
   };
 
+  zipper.generateDownloadUrl = function(content) {
+    var blob;
+    blob = new Blob([content], {
+      type: 'application/octet-binary'
+    });
+    return URL.createObjectURL(blob);
+  };
+
 }).call(this);

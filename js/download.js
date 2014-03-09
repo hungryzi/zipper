@@ -14,17 +14,14 @@
         store = transaction.objectStore(name);
         cursorRequest = store.openCursor();
         cursorRequest.onsuccess = function(e) {
-          var blob, content, result, tag, url;
+          var content, result, tag, url;
           result = e.target.result;
           if (result != null) {
             rows.push(JSON.stringify(result.value));
             return result["continue"]();
           } else {
             content = rows.join("\n");
-            blob = new Blob([content], {
-              type: 'application/octet-binary'
-            });
-            url = URL.createObjectURL(blob);
+            url = zipper.generateDownloadUrl(content);
             tag = $('<a/>').attr('href', url).text('Download here');
             return $('body').append(tag);
           }

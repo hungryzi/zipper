@@ -7,12 +7,16 @@ zipper.indexedDB.populate = (e) ->
   db.deleteObjectStore "left"  if db.objectStoreNames.contains("left")
   leftStore = db.createObjectStore "left",
     keyPath: "id",
-    autoComplete: true
+    autoIncrement: true
 
   db.deleteObjectStore "right"  if db.objectStoreNames.contains("right")
   rightStore = db.createObjectStore "right",
     keyPath: "id",
-    autoComplete: true
+    autoIncrement: false
+
+  rightStore.createIndex "compoundIndex", ['id', 'desc']
+  rightStore.createIndex "multiEntry", 'desc',
+    multiEntry: true
 
   # put in test data
   n = 10

@@ -9,14 +9,18 @@
     }
     leftStore = db.createObjectStore("left", {
       keyPath: "id",
-      autoComplete: true
+      autoIncrement: true
     });
     if (db.objectStoreNames.contains("right")) {
       db.deleteObjectStore("right");
     }
     rightStore = db.createObjectStore("right", {
       keyPath: "id",
-      autoComplete: true
+      autoIncrement: false
+    });
+    rightStore.createIndex("compoundIndex", ['id', 'desc']);
+    rightStore.createIndex("multiEntry", 'desc', {
+      multiEntry: true
     });
     n = 10;
     _results = [];

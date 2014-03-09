@@ -27,3 +27,7 @@ zipper.indexedDB.close = ->
 zipper.indexedDB.drop = ->
   indexedDB.deleteDatabase("zipper")
 
+zipper.generateDownloadUrl = (content) ->
+  blob = new Blob([content], type: 'application/octet-binary')
+  URL.createObjectURL(blob)
+
