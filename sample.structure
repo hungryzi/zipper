@@ -1,0 +1,25 @@
+{
+  name: 'zipper',
+  version: 1,
+  objectStores: [{
+    name: 'left',
+    keyPath: 'id',
+    indexes: [],
+    options: { autoIncrement: true }
+  }, {
+    name: 'right',
+    keyPath: 'id',
+    indexes: [
+      {
+        name: 'compoundIndex',
+        keyPath: ['id', 'desc'],
+        options: {}
+      },{
+        name: 'multiEntry',
+        keyPath: 'desc',
+        options: { multiEntry: true }
+      }
+    ],
+    options: {}
+  }]
+}
