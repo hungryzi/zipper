@@ -1,0 +1,49 @@
+{
+  name: 'zipper',
+  version: 1,
+  options: {},
+  objectStores: [{
+    name: 'left',
+    keyPath: 'id',
+    indexes: [],
+    options: { autoIncrement: true }
+    data: [
+      {"id":1,"desc":"left #1"},
+      {"id":2,"desc":"left #2"},
+      {"id":3,"desc":"left #3"},
+      {"id":4,"desc":"left #4"},
+      {"id":5,"desc":"left #5"},
+      {"id":6,"desc":"left #6"},
+      {"id":7,"desc":"left #7"},
+      {"id":8,"desc":"left #8"},
+      {"id":9,"desc":"left #9"}
+    ]
+  }, {
+    name: 'right',
+    keyPath: 'id',
+    indexes: [
+      {
+        name: 'compoundIndex',
+        keyPath: ['id', 'desc'],
+        options: {}
+      },{
+        name: 'multiEntry',
+        keyPath: 'desc',
+        options: { multiEntry: true }
+      }
+    ],
+    options: { autoIncrement: false },
+    data: [
+      {"id":1,"desc":"right #1"}
+      {"id":2,"desc":"right #2"}
+      {"id":3,"desc":"right #3"}
+      {"id":4,"desc":"right #4"}
+      {"id":5,"desc":"right #5"}
+      {"id":6,"desc":"right #6"}
+      {"id":7,"desc":"right #7"}
+      {"id":8,"desc":"right #8"}
+      {"id":9,"desc":"right #9"}
+    ]
+  }]
+}
+

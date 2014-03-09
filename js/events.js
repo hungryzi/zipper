@@ -2,7 +2,8 @@
 (function() {
   jQuery(function() {
     $('#create').on('click', zipper.indexedDB.open);
-    $('#download').on('click', zipper.downloadStructure);
+    $('#download').on('click', zipper.backupStructure);
+    $('#downloadBoth').on('click', zipper.backupStructureAndData);
     $('#drop').on('click', zipper.indexedDB.drop);
     return $('#restore').on('click', function() {
       var jsonString;
