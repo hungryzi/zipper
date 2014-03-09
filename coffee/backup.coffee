@@ -36,7 +36,7 @@ zipper.backup = (includeData = true) ->
     cursorRequest.onsuccess = (e) ->
       result = e.target.result
       if result?
-        storeJson.data.push JSON.stringify(result.value)
+        storeJson.data.push result.value
         result.continue()
       else
         zipper.waiting--

@@ -50,7 +50,7 @@
         var result;
         result = e.target.result;
         if (result != null) {
-          storeJson.data.push(JSON.stringify(result.value));
+          storeJson.data.push(result.value);
           return result["continue"]();
         } else {
           zipper.waiting--;
