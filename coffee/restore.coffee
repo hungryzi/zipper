@@ -1,21 +1,44 @@
 zipper.indexedDB.restore = (jsonString) ->
-  dbOperation = ->
-    databaseJson = JSON.parse jsonString
+  parseKeyPath = (keyPathJson) ->
+    if typeof(keyPathJson) == 'object'
+      keyPath = []
+      for key, value of keyPathJson
+        keyPath.push value unless isNaN(key)
+    else
+      keyPath = keyPathJson
+    keyPath
 
-    request = indexedDB.open databaseJson.name, databaseJson.version, databaseJson.options
-    request.onupgradeneeded = (e) ->
-      db = e.target.result
+  # pretend that the database doesn't exist
+  databaseJson = JSON.parse jsonString
 
-      for storeJson in databaseJson.objectStores
-        store = db.createObjectStore storeJson.name, storeJson.version, storeJson.options
+  request = indexedDB.open databaseJson.name, databaseJson.version, databaseJson.options
+  request.onupgradeneeded = (e) ->
+    db = e.target.result
 
-        for indexJson in storeJson.indexes
-          store.createIndex indexJson.name, indexJson.keyPath, indexJson.options
+    for storeJson in databaseJson.objectStores
+      keyPath = parseKeyPath(storeJson.keyPath)
+      store = db.createObjectStore storeJson.name, keyPath, storeJson.options
 
-    request.onsuccess = (e) ->
-      console.log "Database", databaseJson.name, "is already at version", databaseJson.version
-      console.log "Nothing is done"
+      for indexJson in storeJson.indexes
+        keyPath = parseKeyPath(indexJson.keyPath)
+        store.createIndex indexJson.name, keyPath, indexJson.options
 
-    request.onerror = zipper.indexedDB.error
+  request.onsuccess = (e) ->
+    # should not run this if database exists
+    db = e.target.result
+    objectStoreNames = db.objectStoreNames
+    return if objectStoreNames.length == 0
 
-  zipper.indexedDB.open dbOperation
+    transaction = db.transaction db.objectStoreNames, 'readwrite'
+
+    for storeJson in databaseJson.objectStores
+      store = transaction.objectStore storeJson.name
+
+      for obj in storeJson.data
+        debugger
+        store.add obj
+
+      null
+
+  request.onerror = zipper.indexedDB.error
+
