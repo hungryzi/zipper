@@ -3,7 +3,12 @@
   jQuery(function() {
     $('#create').on('click', zipper.indexedDB.open);
     $('#download').on('click', zipper.downloadStructure);
-    return $('#drop').on('click', zipper.indexedDB.drop);
+    $('#drop').on('click', zipper.indexedDB.drop);
+    return $('#restore').on('click', function() {
+      var jsonString;
+      jsonString = $('#json').val();
+      return zipper.indexedDB.restore(jsonString);
+    });
   });
 
 }).call(this);
