@@ -11,7 +11,7 @@
     request.onupgradeneeded = zipper.indexedDB.populate;
     request.onsuccess = function(e) {
       zipper.indexedDB.db = e.target.result;
-      if (operation != null) {
+      if ((operation != null) && typeof operation === 'function') {
         operation();
         return zipper.indexedDB.close();
       } else {

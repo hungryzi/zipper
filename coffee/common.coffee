@@ -10,7 +10,7 @@ zipper.indexedDB.open = (operation) ->
   request.onsuccess = (e) ->
     zipper.indexedDB.db = e.target.result
 
-    if operation?
+    if operation? && typeof(operation) == 'function'
       operation()
       zipper.indexedDB.close()
     else
