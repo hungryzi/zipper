@@ -4,17 +4,25 @@
     %title IndexedDB zipper
 
   %body
-    %button#create Create test data
-    %button#download Download structure
-    %button#downloadBoth Download structure & data
-    %button#drop Drop
-    %button#restore Restore
-
-    %br
-
     %label
-      JSON string
-      %input#json{ type: 'text' }
+      Database name
+      %input#database{ type: 'text', value: 'zipper' }
+
+    %hr
+
+    %button#bootstrap Bootstrap test database
+    %button#drop Drop database
+
+    %hr
+
+    %button#download Download structure only
+    %button#downloadBoth Download structure & data
+
+    %hr
+
+    %textarea#json JSON string
+    %br
+    %button#restore Restore
 
     %hr
 

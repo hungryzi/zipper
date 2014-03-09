@@ -1,4 +1,4 @@
-zipper.backup = (includeData = true) ->
+zipper.backup = (databaseName, includeData = true) ->
   initializeDatabaseJson = (db) ->
     databaseJson = {}
     databaseJson.name = db.name
@@ -9,8 +9,8 @@ zipper.backup = (includeData = true) ->
   initializeStoreJson = (store) ->
     storeJson = {}
     storeJson.name = store.name
-    storeJson.keyPath = store.keyPath
     storeJson.options = {
+      keyPath: store.keyPath
       autoIncrement: store.autoIncrement
     }
 
@@ -65,10 +65,10 @@ zipper.backup = (includeData = true) ->
       saveStoreIndexStructure(store, storeJson)
       saveStoreData(store, storeJson) if includeData
 
-  zipper.indexedDB.open dbOperation
+  zipper.indexedDB.open databaseName, dbOperation
 
-zipper.backupStructure = ->
-  zipper.backup(false)
+zipper.backupStructure = (databaseName) ->
+  zipper.backup databaseName, false
 
 zipper.backupStructureAndData = zipper.backup
 

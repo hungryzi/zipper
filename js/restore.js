@@ -26,8 +26,7 @@
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         storeJson = _ref[_i];
-        keyPath = parseKeyPath(storeJson.keyPath);
-        store = db.createObjectStore(storeJson.name, keyPath, storeJson.options);
+        store = db.createObjectStore(storeJson.name, storeJson.options);
         _results.push((function() {
           var _j, _len1, _ref1, _results1;
           _ref1 = storeJson.indexes;
@@ -58,7 +57,6 @@
         _ref1 = storeJson.data;
         for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
           obj = _ref1[_j];
-          debugger;
           store.add(obj);
         }
         _results.push(null);

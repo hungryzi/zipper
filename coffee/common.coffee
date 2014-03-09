@@ -1,11 +1,8 @@
 window.zipper = {}
 window.zipper.indexedDB = {}
 
-zipper.indexedDB.open = (operation) ->
-  version = 1
-  request = indexedDB.open("zipper", version)
-
-  request.onupgradeneeded = zipper.indexedDB.populate
+zipper.indexedDB.open = (databaseName, operation) ->
+  request = indexedDB.open databaseName
 
   request.onsuccess = (e) ->
     zipper.indexedDB.db = e.target.result
@@ -24,10 +21,16 @@ zipper.indexedDB.onerror = (e) ->
 zipper.indexedDB.close = ->
   zipper.indexedDB.db.close() if zipper.indexedDB.db
 
-zipper.indexedDB.drop = ->
-  indexedDB.deleteDatabase("zipper")
+zipper.indexedDB.drop = (databaseName) ->
+  indexedDB.deleteDatabase databaseName
 
 zipper.generateDownloadUrl = (content) ->
   blob = new Blob([content], type: 'application/octet-binary')
   URL.createObjectURL(blob)
+
+zipper.indexedDB.bootstrap = ->
+  version = 1
+  request = indexedDB.open("zipper", version)
+  request.onupgradeneeded = zipper.indexedDB.populate
+  request.onerror = zipper.indexedDB.onerror
 

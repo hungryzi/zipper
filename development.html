@@ -4,16 +4,20 @@
     <title>IndexedDB zipper</title>
   </head>
   <body>
-    <button id='create'>Create test data</button>
-    <button id='download'>Download structure</button>
-    <button id='downloadBoth'>Download structure & data</button>
-    <button id='drop'>Drop</button>
-    <button id='restore'>Restore</button>
-    <br>
     <label>
-      JSON string
-      <input id='json' type='text'>
+      Database name
+      <input id='database' type='text' value='zipper'>
     </label>
+    <hr>
+    <button id='bootstrap'>Bootstrap test database</button>
+    <button id='drop'>Drop database</button>
+    <hr>
+    <button id='download'>Download structure only</button>
+    <button id='downloadBoth'>Download structure & data</button>
+    <hr>
+    <textarea id='json'>JSON string</textarea>
+    <br>
+    <button id='restore'>Restore</button>
     <hr>
     <div class='data'></div>
     <script src='js/jquery-2.0.3.js'></script>

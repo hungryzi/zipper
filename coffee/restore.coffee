@@ -16,8 +16,7 @@ zipper.indexedDB.restore = (jsonString) ->
     db = e.target.result
 
     for storeJson in databaseJson.objectStores
-      keyPath = parseKeyPath(storeJson.keyPath)
-      store = db.createObjectStore storeJson.name, keyPath, storeJson.options
+      store = db.createObjectStore storeJson.name, storeJson.options
 
       for indexJson in storeJson.indexes
         keyPath = parseKeyPath(indexJson.keyPath)
@@ -35,7 +34,6 @@ zipper.indexedDB.restore = (jsonString) ->
       store = transaction.objectStore storeJson.name
 
       for obj in storeJson.data
-        debugger
         store.add obj
 
       null

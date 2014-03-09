@@ -4,11 +4,9 @@
 
   window.zipper.indexedDB = {};
 
-  zipper.indexedDB.open = function(operation) {
-    var request, version;
-    version = 1;
-    request = indexedDB.open("zipper", version);
-    request.onupgradeneeded = zipper.indexedDB.populate;
+  zipper.indexedDB.open = function(databaseName, operation) {
+    var request;
+    request = indexedDB.open(databaseName);
     request.onsuccess = function(e) {
       zipper.indexedDB.db = e.target.result;
       if ((operation != null) && typeof operation === 'function') {
@@ -31,8 +29,8 @@
     }
   };
 
-  zipper.indexedDB.drop = function() {
-    return indexedDB.deleteDatabase("zipper");
+  zipper.indexedDB.drop = function(databaseName) {
+    return indexedDB.deleteDatabase(databaseName);
   };
 
   zipper.generateDownloadUrl = function(content) {
@@ -41,6 +39,14 @@
       type: 'application/octet-binary'
     });
     return URL.createObjectURL(blob);
+  };
+
+  zipper.indexedDB.bootstrap = function() {
+    var request, version;
+    version = 1;
+    request = indexedDB.open("zipper", version);
+    request.onupgradeneeded = zipper.indexedDB.populate;
+    return request.onerror = zipper.indexedDB.onerror;
   };
 
 }).call(this);
