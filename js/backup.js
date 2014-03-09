@@ -52,17 +52,9 @@
         if (result != null) {
           storeJson.data.push(result.value);
           return result["continue"]();
-        } else {
-          zipper.waiting--;
-          if (zipper.waiting === 0) {
-            return showDownloadLink();
-          }
         }
       };
-      return cursorRequest.onerror = function(e) {
-        zipper.waiting--;
-        return zipper.indexedDB.onerror(e);
-      };
+      return cursorRequest.onerror = zipper.indexedDB.onerror;
     };
     showDownloadLink = function() {
       var tag, url;
@@ -71,12 +63,15 @@
       return $('body').append(tag);
     };
     dbOperation = function() {
-      var db, name, objectStoreNames, store, storeJson, transaction, _i, _len;
+      var db, name, objectStoreNames, store, storeJson, transaction, _i, _len, _results;
       db = zipper.indexedDB.db;
       zipper.databaseJson = initializeDatabaseJson(db);
       objectStoreNames = db.objectStoreNames;
       transaction = db.transaction(objectStoreNames, 'readonly');
-      zipper.waiting = objectStoreNames.length;
+      transaction.oncomplete = function() {
+        return showDownloadLink();
+      };
+      _results = [];
       for (_i = 0, _len = objectStoreNames.length; _i < _len; _i++) {
         name = objectStoreNames[_i];
         store = transaction.objectStore(name);
@@ -84,12 +79,12 @@
         zipper.databaseJson.objectStores.push(storeJson);
         saveStoreIndexStructure(store, storeJson);
         if (includeData) {
-          saveStoreData(store, storeJson);
+          _results.push(saveStoreData(store, storeJson));
+        } else {
+          _results.push(void 0);
         }
       }
-      if (!includeData) {
-        return showDownloadLink();
-      }
+      return _results;
     };
     return zipper.indexedDB.open(dbOperation);
   };

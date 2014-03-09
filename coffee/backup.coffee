@@ -38,13 +38,8 @@ zipper.backup = (includeData = true) ->
       if result?
         storeJson.data.push result.value
         result.continue()
-      else
-        zipper.waiting--
-        showDownloadLink() if zipper.waiting == 0
 
-    cursorRequest.onerror = (e) ->
-      zipper.waiting--
-      zipper.indexedDB.onerror(e)
+    cursorRequest.onerror = zipper.indexedDB.onerror
 
   showDownloadLink = ->
     url = zipper.generateDownloadUrl JSON.stringify(zipper.databaseJson)
@@ -58,8 +53,9 @@ zipper.backup = (includeData = true) ->
 
     objectStoreNames = db.objectStoreNames
     transaction = db.transaction objectStoreNames, 'readonly'
+    transaction.oncomplete = ->
+      showDownloadLink()
 
-    zipper.waiting = objectStoreNames.length
     for name in objectStoreNames
       store = transaction.objectStore name
 
@@ -67,10 +63,7 @@ zipper.backup = (includeData = true) ->
       zipper.databaseJson.objectStores.push storeJson
 
       saveStoreIndexStructure(store, storeJson)
-
       saveStoreData(store, storeJson) if includeData
-
-    showDownloadLink() unless includeData
 
   zipper.indexedDB.open dbOperation
 
